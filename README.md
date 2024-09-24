@@ -2,8 +2,8 @@
 
 ### A web application that lets you express your thoughts beyond Twitter's 280-character limit while maintaining a tweet-like visual format.
 
-
 ## Table of Contents
+
 - [About](#about)
 - [Features](#features)
 - [Screenshots](#screenshots)
@@ -24,34 +24,38 @@
 - Choose from different themes for your posts.
 - Download and share your longer tweets in an easy format.
 - Provide feedback to improve the app.
-  
-## Preview
-<a href='https://beyond280.netlify.app/' target="_blank"> Here </a>
 
+## Preview
+
+<a href='https://beyond280.netlify.app/' target="_blank"> Here </a>
 
 ## Installation
 
 To get started with Beyond280, follow these steps:
 
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/beyond280.git
-    ```
+
+   ```bash
+   git clone https://github.com/yourusername/beyond280.git
+   ```
 
 2. Navigate to the project directory:
-    ```bash
-    cd beyond280
-    ```
+
+   ```bash
+   cd beyond280
+   ```
 
 3. Install dependencies:
-    ```bash
-    npm install
-    ```
+
+   ```bash
+   npm install
+   ```
 
 4. Start the development server:
-    ```bash
-    npm run dev
-    ```
+
+   ```bash
+   npm run dev
+   ```
 
 5. Open your browser and visit `http://localhost:5173` to see the app in action.
 
@@ -69,20 +73,27 @@ Contributions are welcome! If you'd like to contribute to the project, please fo
 
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix:
-    ```bash
-    git checkout -b feature-name
-    ```
+   ```bash
+   git checkout -b feature-name
+   ```
 3. Commit your changes:
-    ```bash
-    git commit -m "Description of feature or fix"
-    ```
+   ```bash
+   git commit -m "Description of feature or fix"
+   ```
 4. Push to your branch:
-    ```bash
-    git push origin feature-name
-    ```
+   ```bash
+   git push origin feature-name
+   ```
 5. Submit a pull request.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## PS
+
+- It it made entirely within a day 🪲.
+
+## TBD
+
+-[] Add support for images (static images).
