@@ -48,11 +48,11 @@ export default function TweetCard({
 
   return (
     <Card
-      className={`w-[32rem] rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ${cardClassNames}`}
+      className={`w-[32rem]  hover:shadow-lg transition-shadow duration-300 ${cardClassNames}`}
     >
       <CardHeader className="flex flex-row space-x-3 p-4">
         <Avatar className="w-12 h-12">
-          <AvatarImage src={avatarSrc} alt={name} />
+          <AvatarImage src="./vite.svg" alt={name} crossOrigin="anonymous" />
           <AvatarFallback className="bg-blue-500 text-white text-sm">
             {name ? getInitials(name) : "U"}
           </AvatarFallback>

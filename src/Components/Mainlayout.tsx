@@ -22,6 +22,8 @@ import { useState } from "react";
 import TweetCard from "./TwitterCard";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import html2canvas from "html2canvas"; // Import html2canvas at the top
+import { useRef } from "react"; // Import useRef to reference the TweetCard
 import {
   Drawer,
   DrawerContent,
@@ -51,6 +53,22 @@ export const description =
   "An AI playground with a sidebar navigation and a main content area. The playground has a header with a settings drawer and a share button. The sidebar has navigation links and a user menu. The main content area shows a form to configure the model and messages.";
 
 export default function Dashboard() {
+  const tweetCardRef = useRef<HTMLDivElement | null>(null); // Create a ref for the TweetCard
+
+  const handleShareClick = async () => {
+    if (tweetCardRef.current) {
+      const canvas = await html2canvas(tweetCardRef.current);
+      const dataUrl = canvas.toDataURL("image/png");
+      console.log(canvas);
+
+      // Create a link element to download the image
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "tweet-card.png"; // Set the file name
+      link.click(); // Trigger the download
+    }
+  };
+
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [name, setName] = useState<string>("John Doe");
   const [username, setUsername] = useState<string>("johndoe");
@@ -331,6 +349,7 @@ export default function Dashboard() {
             variant="outline"
             size="sm"
             className="ml-auto gap-1.5 text-sm"
+            onClick={handleShareClick}
           >
             <Share className="size-3.5" />
             Share
@@ -357,7 +376,7 @@ export default function Dashboard() {
                       id="model"
                       className="items-start [&_[data-description]]:hidden"
                     >
-                      <SelectValue placeholder="Select a theme" />
+                      <SelectValue placeholder="Dark" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="dark">
@@ -442,13 +461,15 @@ export default function Dashboard() {
             <Badge variant="outline" className="absolute right-3 top-3">
               Output
             </Badge>
-            <TweetCard
-              name={name}
-              username={username}
-              theme={theme}
-              avatarSrc={avatarSrc}
-              content={content}
-            />
+            <div ref={tweetCardRef}>
+              <TweetCard
+                name={name}
+                username={username}
+                theme={theme}
+                avatarSrc={avatarSrc}
+                content={content}
+              />
+            </div>
           </div>
         </main>
       </div>
