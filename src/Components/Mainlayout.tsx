@@ -79,6 +79,7 @@ export default function Dashboard() {
     "Hello World! This is a tweet card. Dont write too much text in it or it will look bad. Around 600 words it can handle beyond that i ain't responsible for the design. Use Download button on the top right to download the image of this tweet card.✌️🪲✌️"
   );
   const [display, setDisplay] = useState<"default" | "models">("default");
+  const [contentLength, setContentLength] = useState<number>(content.length);
 
   const handleModelsClick = () => {
     setDisplay("models");
@@ -94,6 +95,7 @@ export default function Dashboard() {
     setAvatarSrc(e.target.value);
   };
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContentLength(e.target.value.length);
     setContent(e.target.value);
   };
   const [avatarSrc, setAvatarSrc] = useState<string>(
@@ -159,8 +161,8 @@ export default function Dashboard() {
                   className="mt-auto rounded-lg"
                   aria-label="Help"
                   onClick={() => {
-                    toast(" Help? Nah, you’re on your own!  ", {
-                      icon: "👏",
+                    toast(" Help? Visit the github repo for readme  ", {
+                      icon: "🙏🏽",
                     });
                   }}
                 >
@@ -317,6 +319,10 @@ export default function Dashboard() {
                       onChange={handleContentChange}
                       className="min-h-[12.5rem]"
                     />
+                    <span className="text-xs text-right">
+                      {contentLength}{" "}
+                      <span className="text-muted-foreground">characters</span>
+                    </span>
                   </div>
                 </fieldset>
               </form>
@@ -443,12 +449,19 @@ export default function Dashboard() {
                       onChange={handleContentChange}
                       className="min-h-[12.5rem]"
                     />
+                    <span className="text-xs text-right">
+                      {contentLength}{" "}
+                      <span className="text-muted-foreground">characters</span>
+                    </span>
                   </div>
                 </fieldset>
               </form>
             </div>
             <div className="relative flex h-full min-h-[50vh] flex-col items-center justify-center rounded-xl bg-muted/50 p-4 lg:col-span-2">
-              <Badge variant="outline" className="absolute right-3 top-3">
+              <Badge
+                variant="outline"
+                className="md:absolute md:right-3 md:top-3"
+              >
                 Output
               </Badge>
               <div ref={tweetCardRef} style={{ margin: 0, padding: 0 }}>
@@ -537,9 +550,8 @@ export default function Dashboard() {
               <h2 className="sm:text-2xl font-bold mb-4">
                 Share your best tweets to get featured here
               </h2>
-              <p className="text-center text-gray-600">
-                "Beyond 280 has transformed the way I share my thoughts with the
-                world!"
+              <p className="text-center text-xs text-gray-600">
+                Made with ❤️ by NeeShar
               </p>
             </div>
           </main>

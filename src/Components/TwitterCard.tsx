@@ -68,7 +68,8 @@ else if(theme==="blue"){
 
   return (
     <Card
-      className={`w-[35rem]  rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300  ${cardClassNames}`}
+     
+      className={`w-[35rem] box-shadow-1 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300  ${cardClassNames}`}
     >
       <CardHeader className="flex flex-row space-x-2 p-1">
         <Avatar className="w-12 h-12 m-2">
@@ -96,7 +97,7 @@ else if(theme==="blue"){
         </Button>
       </CardHeader>
       <CardContent className="px-4 py-2">
-        <p className="text-sm leading-relaxed">{content}</p>
+        <p className="text-sm leading-relaxed ">{content}</p>
       </CardContent>
       <CardFooter
         className={`flex justify-between px-4 py-2 border-t ${borderColorClass}`}

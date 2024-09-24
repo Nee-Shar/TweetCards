@@ -64,3 +64,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.box-shadow-1{
+  -webkit-box-shadow: 4px 6px 9px 0px rgba(14,18,46,1);
+-moz-box-shadow: 4px 6px 9px 0px rgba(14,18,46,1);
+box-shadow: 4px 6px 9px 0px rgba(14,18,46,1);
+}
