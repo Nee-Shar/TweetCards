@@ -1,21 +1,17 @@
 import {
-  Bird,
   Book,
   Bot,
   Code2,
-  CornerDownLeft,
   LifeBuoy,
-  Mic,
-  Paperclip,
-  Rabbit,
   Settings,
+  Twitter,
+  X,
   Settings2,
   Share,
   SquareTerminal,
   SquareUser,
-  Triangle,
-  Turtle,
   MoonStar,
+  CloudMoon,
   Sun,
 } from "lucide-react";
 import { useState } from "react";
@@ -48,16 +44,21 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "./ui/tooltip";
+import toast, { Toaster } from "react-hot-toast";
 
 export const description =
-  "An AI playground with a sidebar navigation and a main content area. The playground has a header with a settings drawer and a share button. The sidebar has navigation links and a user menu. The main content area shows a form to configure the model and messages.";
+  "The app, Beyond280 allows users to write posts exceeding Twitter's 280-character limit while keeping the tweet-like visual format. Users can craft longer messages that resemble tweets, with familiar styling, and then download these posts as images for easy sharing across platforms";
 
 export default function Dashboard() {
   const tweetCardRef = useRef<HTMLDivElement | null>(null); // Create a ref for the TweetCard
 
   const handleShareClick = async () => {
     if (tweetCardRef.current) {
-      const canvas = await html2canvas(tweetCardRef.current);
+      const canvas = await html2canvas(tweetCardRef.current, {
+        useCORS: true,
+        scale: 2, // Increase the resolution
+        backgroundColor: null, // Ensure transparency
+      });
       const dataUrl = canvas.toDataURL("image/png");
       console.log(canvas);
 
@@ -73,7 +74,7 @@ export default function Dashboard() {
   const [name, setName] = useState<string>("John Doe");
   const [username, setUsername] = useState<string>("johndoe");
   const [content, setContent] = useState<string>(
-    "Just setting up my Twitter clone!"
+    "Hello World! This is a tweet card. Dont write too much text in it or it will look bad. Around 600 words it can handle beyond that i ain't responsible for the design. Use Download button on the top right to download the image of this tweet card.✌️🪲✌️"
   );
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -92,10 +93,12 @@ export default function Dashboard() {
   );
   return (
     <div className="grid h-screen w-full pl-[56px]">
+      <Toaster />
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
         <div className="border-b p-2">
           <Button variant="outline" size="icon" aria-label="Home">
-            <Triangle className="size-5 fill-foreground" />
+            <Twitter className="size-5 fill-foreground" />
+            <X className="size-5 fill-foreground" />
           </Button>
         </div>
 
@@ -113,7 +116,7 @@ export default function Dashboard() {
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right" sideOffset={5}>
-                Playground
+                Beyond280
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -195,6 +198,11 @@ export default function Dashboard() {
                   size="icon"
                   className="mt-auto rounded-lg"
                   aria-label="Help"
+                  onClick={() => {
+                    toast(' Help? Nah, you’re on your own!  ', {
+                      icon: '👏',
+                    });
+                  }}
                 >
                   <LifeBuoy className="size-5" />
                 </Button>
@@ -212,10 +220,14 @@ export default function Dashboard() {
                   size="icon"
                   className="mt-auto rounded-lg"
                   aria-label="Account"
+                  onClick={() => {
+                    window.location.href = "https://github.com/Nee-Shar";
+                  }}
                 >
                   <SquareUser className="size-5" />
                 </Button>
               </TooltipTrigger>
+
               <TooltipContent side="right" sideOffset={5}>
                 Account
               </TooltipContent>
@@ -225,7 +237,7 @@ export default function Dashboard() {
       </aside>
       <div className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
-          <h1 className="text-xl font-semibold">Playground</h1>
+          <h1 className="text-xl font-semibold">Beyond280</h1>
           <Drawer>
             <DrawerTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -237,7 +249,7 @@ export default function Dashboard() {
               <DrawerHeader>
                 <DrawerTitle>Configuration</DrawerTitle>
                 <DrawerDescription>
-                  Configure the settings for the model and messages.
+                  Configure the settings for the tweet.
                 </DrawerDescription>
               </DrawerHeader>
               <form className="grid w-full items-start gap-6 overflow-auto p-4 pt-0">
@@ -246,60 +258,49 @@ export default function Dashboard() {
                     Settings
                   </legend>
                   <div className="grid gap-3">
-                    <Label htmlFor="model">Model</Label>
-                    <Select>
+                    <Label htmlFor="model">Theme</Label>
+                    <Select
+                      onValueChange={(value) =>
+                        setTheme(value as "dark" | "light")
+                      }
+                      value={theme}
+                    >
                       <SelectTrigger
                         id="model"
                         className="items-start [&_[data-description]]:hidden"
                       >
-                        <SelectValue placeholder="Select a model" />
+                        <SelectValue placeholder="Dark" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="genesis">
+                        <SelectItem value="dark">
                           <div className="flex items-start gap-3 text-muted-foreground">
-                            <Rabbit className="size-5" />
+                            <MoonStar className="size-5" />
                             <div className="grid gap-0.5">
-                              <p>
-                                Neural{" "}
-                                <span className="font-medium text-foreground">
-                                  Genesis
-                                </span>
-                              </p>
+                              <p>Dark</p>
                               <p className="text-xs" data-description>
-                                Our fastest model for general use cases.
+                                Saving your eyes, one screen at a time.
                               </p>
                             </div>
                           </div>
                         </SelectItem>
-                        <SelectItem value="explorer">
+                        <SelectItem value="light">
                           <div className="flex items-start gap-3 text-muted-foreground">
-                            <Bird className="size-5" />
+                            <Sun className="size-5" />
                             <div className="grid gap-0.5">
-                              <p>
-                                Neural{" "}
-                                <span className="font-medium text-foreground">
-                                  Explorer
-                                </span>
-                              </p>
+                              <p>Light</p>
                               <p className="text-xs" data-description>
-                                Performance and speed for efficiency.
+                                Blinding you since 2007.
                               </p>
                             </div>
                           </div>
                         </SelectItem>
-                        <SelectItem value="quantum">
+                        <SelectItem value="blue">
                           <div className="flex items-start gap-3 text-muted-foreground">
-                            <Turtle className="size-5" />
+                            <CloudMoon className="size-5" />
                             <div className="grid gap-0.5">
-                              <p>
-                                Neural{" "}
-                                <span className="font-medium text-foreground">
-                                  Quantum
-                                </span>
-                              </p>
+                              <p>Mystic</p>
                               <p className="text-xs" data-description>
-                                The most powerful model for complex
-                                computations.
+                                The sky is the limit.
                               </p>
                             </div>
                           </div>
@@ -307,39 +308,55 @@ export default function Dashboard() {
                       </SelectContent>
                     </Select>
                   </div>
+
                   <div className="grid gap-3">
-                    <Label htmlFor="temperature">Temperature</Label>
-                    <Input id="temperature" type="number" placeholder="0.4" />
+                    <Label htmlFor="temperature">Display Name</Label>
+
+                    <Input
+                      id="temperature"
+                      type="text" // Change type to "text" instead of "string"
+                      placeholder="John Doe"
+                      value={name} // Set the value to the state
+                      onChange={handleNameChange} // Handle input change
+                    />
+                  </div>
+
+                  <div className="grid gap-3">
+                    <Label htmlFor="top-p">Username</Label>
+                    <Input
+                      id="top-p"
+                      type="string"
+                      value={username}
+                      placeholder="johndoe"
+                      onChange={handleUserNameChange}
+                    />
                   </div>
                   <div className="grid gap-3">
-                    <Label htmlFor="top-p">Top P</Label>
-                    <Input id="top-p" type="number" placeholder="0.7" />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="top-k">Top K</Label>
-                    <Input id="top-k" type="number" placeholder="0.0" />
+                    <Label htmlFor="top-k">Image URL</Label>
+                    <Input
+                      id="top-k"
+                      type="string"
+                      value={avatarSrc}
+                      placeholder="i_am_batman"
+                      onChange={handleAvatarChange}
+                    />
                   </div>
                 </fieldset>
+
                 <fieldset className="grid gap-6 rounded-lg border p-4">
                   <legend className="-ml-1 px-1 text-sm font-medium">
                     Messages
                   </legend>
-                  <div className="grid gap-3">
-                    <Label htmlFor="role">Role</Label>
-                    <Select defaultValue="system">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a role" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="system">System</SelectItem>
-                        <SelectItem value="user">User</SelectItem>
-                        <SelectItem value="assistant">Assistant</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+
                   <div className="grid gap-3">
                     <Label htmlFor="content">Content</Label>
-                    <Textarea id="content" placeholder="You are a..." />
+                    <Textarea
+                      id="content"
+                      placeholder="You are a..."
+                      value={content}
+                      onChange={handleContentChange}
+                      className="min-h-[12.5rem]"
+                    />
                   </div>
                 </fieldset>
               </form>
@@ -352,10 +369,10 @@ export default function Dashboard() {
             onClick={handleShareClick}
           >
             <Share className="size-3.5" />
-            Share
+            Download
           </Button>
         </header>
-        <main className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3">
+        <main className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-1 lg:grid-cols-3 ">
           <div
             className="relative hidden flex-col items-start gap-8 md:flex"
             x-chunk="dashboard-03-chunk-0"
@@ -371,6 +388,7 @@ export default function Dashboard() {
                     onValueChange={(value) =>
                       setTheme(value as "dark" | "light")
                     }
+                    value={theme}
                   >
                     <SelectTrigger
                       id="model"
@@ -397,6 +415,17 @@ export default function Dashboard() {
                             <p>Light</p>
                             <p className="text-xs" data-description>
                               Blinding you since 2007.
+                            </p>
+                          </div>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="blue">
+                        <div className="flex items-start gap-3 text-muted-foreground">
+                          <CloudMoon className="size-5" />
+                          <div className="grid gap-0.5">
+                            <p>Mystic</p>
+                            <p className="text-xs" data-description>
+                              The sky is the limit.
                             </p>
                           </div>
                         </div>
@@ -461,7 +490,7 @@ export default function Dashboard() {
             <Badge variant="outline" className="absolute right-3 top-3">
               Output
             </Badge>
-            <div ref={tweetCardRef}>
+            <div ref={tweetCardRef} style={{ margin: 0, padding: 0 }}>
               <TweetCard
                 name={name}
                 username={username}

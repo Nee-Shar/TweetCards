@@ -38,21 +38,41 @@ export default function TweetCard({
   };
 
   // Conditional classes for dark/light themes
-  const cardClassNames =
-    theme === "dark"
-      ? "bg-gray-900 text-gray-100 border-gray-800"
-      : "bg-white text-gray-900 border-gray-300";
-  const textMutedClass = theme === "dark" ? "text-gray-400" : "text-gray-500";
-  const borderColorClass =
-    theme === "dark" ? "border-gray-800" : "border-gray-300";
+  
+  var cardClassNames: string = "";
+  //   theme === "dark"
+  //     ? "bg-black text-gray-100 border-gray-800"
+  //     : "bg-white text-gray-900 border-gray-300";
+  var textMutedClass: string = "";
+  // const textMutedClass = theme === "dark" ? "text-gray-400" : "text-gray-500";
+  var borderColorClass: string = "";
+  // const borderColorClass =
+  //   theme === "dark" ? "border-gray-800" : "border-gray-300";
+
+if(theme==="dark"){
+  cardClassNames="bg-black text-gray-100 border-gray-800";
+  textMutedClass="text-gray-400";
+  borderColorClass="border-gray-800";
+}
+else if(theme==="light"){
+  cardClassNames="bg-white text-gray-900 border-gray-300";
+  textMutedClass="text-gray-500";
+  borderColorClass="border-gray-300";
+}
+else if(theme==="blue"){
+  cardClassNames="bg-[#020817] text-[#d9e4ff] border-[#444444]";
+  textMutedClass="text-[#a3a3a3]";
+  borderColorClass="border-[#444444]";
+}
+
 
   return (
     <Card
-      className={`w-[32rem]  hover:shadow-lg transition-shadow duration-300 ${cardClassNames}`}
+      className={`w-[35rem]  rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300  ${cardClassNames}`}
     >
-      <CardHeader className="flex flex-row space-x-3 p-4">
-        <Avatar className="w-12 h-12">
-          <AvatarImage src="./vite.svg" alt={name} crossOrigin="anonymous" />
+      <CardHeader className="flex flex-row space-x-2 p-1">
+        <Avatar className="w-12 h-12 m-2">
+          <AvatarImage src={avatarSrc} alt={name} crossOrigin="anonymous" />
           <AvatarFallback className="bg-blue-500 text-white text-sm">
             {name ? getInitials(name) : "U"}
           </AvatarFallback>
