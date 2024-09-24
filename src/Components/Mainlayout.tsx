@@ -551,7 +551,10 @@ export default function Dashboard() {
                 Share your best tweets to get featured here
               </h2>
               <p className="text-center text-xs text-gray-600">
-                Made with ❤️ by NeeShar
+                Made with ❤️ by{" "}
+                <a href="https://github.com/Nee-Shar" target="_blank">
+                  NeeShar
+                </a>
               </p>
             </div>
           </main>
