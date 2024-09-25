@@ -1,10 +1,13 @@
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+import { Input } from "./ui/input";
 import {
   Heart,
   MessageCircle,
   Repeat2,
+
   Share,
   ChartNoAxesColumn,
   MoreHorizontal,
@@ -19,7 +22,8 @@ interface TweetCardProps {
   likes?: number;
   comments?: number;
   retweets?: number;
-  theme?: "dark" | "light"; // Add theme parameter
+  theme?: "dark" | "light" | "blue";
+  imageAllowed?: boolean; // Prop to control if image upload is allowed
 }
 
 export default function TweetCard({
@@ -27,8 +31,17 @@ export default function TweetCard({
   name = "John Doe",
   username = "johndoe",
   content = "Just setting up my Twitter clone!",
-  theme = "dark", // Default to dark theme
+  theme = "dark",
+  imageAllowed = false, // Default is not to allow images
 }: TweetCardProps) {
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [isImageAllowed, setIsImageAllowed] = useState(imageAllowed);
+
+  // Sync isImageAllowed with imageAllowed prop when the prop changes
+  useEffect(() => {
+    setIsImageAllowed(imageAllowed);
+  }, [imageAllowed]);
+
   const getInitials = (name: string) => {
     return name
       .split(" ")
@@ -37,39 +50,38 @@ export default function TweetCard({
       .toUpperCase();
   };
 
-  // Conditional classes for dark/light themes
-  
-  var cardClassNames: string = "";
-  //   theme === "dark"
-  //     ? "bg-black text-gray-100 border-gray-800"
-  //     : "bg-white text-gray-900 border-gray-300";
-  var textMutedClass: string = "";
-  // const textMutedClass = theme === "dark" ? "text-gray-400" : "text-gray-500";
-  var borderColorClass: string = "";
-  // const borderColorClass =
-  //   theme === "dark" ? "border-gray-800" : "border-gray-300";
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string); // Set the uploaded image
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-if(theme==="dark"){
-  cardClassNames="bg-black text-gray-100 border-gray-800";
-  textMutedClass="text-gray-400";
-  borderColorClass="border-gray-800";
-}
-else if(theme==="light"){
-  cardClassNames="bg-white text-gray-900 border-gray-300";
-  textMutedClass="text-gray-500";
-  borderColorClass="border-gray-300";
-}
-else if(theme==="blue"){
-  cardClassNames="bg-[#020817] text-[#d9e4ff] border-[#444444]";
-  textMutedClass="text-[#a3a3a3]";
-  borderColorClass="border-[#444444]";
-}
+  let cardClassNames: string = "";
+  let textMutedClass: string = "";
+  let borderColorClass: string = "";
 
+  if (theme === "dark") {
+    cardClassNames = "bg-black text-gray-100 border-gray-800";
+    textMutedClass = "text-gray-400";
+    borderColorClass = "border-gray-800";
+  } else if (theme === "light") {
+    cardClassNames = "bg-white text-gray-900 border-gray-300";
+    textMutedClass = "text-gray-500";
+    borderColorClass = "border-gray-300";
+  } else if (theme === "blue") {
+    cardClassNames = "bg-[#020817] text-[#d9e4ff] border-[#444444]";
+    textMutedClass = "text-[#a3a3a3]";
+    borderColorClass = "border-[#444444]";
+  }
 
   return (
     <Card
-     
-      className={`w-[35rem] box-shadow-1 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300  ${cardClassNames}`}
+      className={`w-[35rem] box-shadow-1 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ${cardClassNames}`}
     >
       <CardHeader className="flex flex-row space-x-2 p-1">
         <Avatar className="w-12 h-12 m-2">
@@ -90,14 +102,30 @@ else if(theme==="blue"){
         <Button
           variant="ghost"
           size="sm"
-          className="p-1 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 "
+          className="p-1 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10"
         >
-          <MoreHorizontal className="w-5 h-5 " />
+          <MoreHorizontal className="w-5 h-5" />
           <span className="sr-only">More options</span>
         </Button>
       </CardHeader>
+
       <CardContent className="px-4 py-2">
-        <p className="text-sm leading-relaxed ">{content}</p>
+        <p className="text-sm leading-relaxed">{content}</p>
+
+        {uploadedImage ? (
+          <img src={uploadedImage} alt="Uploaded" className="mt-2 rounded-lg" />
+        ) : (
+          isImageAllowed && (
+            <div className="mt-4">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="block mt-2"
+              />
+            </div>
+          )
+        )}
       </CardContent>
       <CardFooter
         className={`flex justify-between px-4 py-2 border-t ${borderColorClass}`}

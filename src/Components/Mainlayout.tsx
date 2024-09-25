@@ -75,6 +75,7 @@ export default function Dashboard() {
   );
   const [display, setDisplay] = useState<"default" | "models">("default");
   const [contentLength, setContentLength] = useState<number>(content.length);
+  const [includeImage, setIncludeImage] = useState(false); // Initial state
 
   const handleModelsClick = () => {
     setDisplay("models");
@@ -289,6 +290,16 @@ export default function Dashboard() {
                     />
                   </div>
                   <div className="grid gap-3">
+                    <Label htmlFor="include-image">Include Image</Label>
+                    <Input
+                      id="include-image"
+                      type="checkbox"
+                      checked={includeImage} // This should be a state variable
+                      onChange={(e) => setIncludeImage(e.target.checked)} // Update state on change
+                    />
+                  </div>
+
+                  <div className="grid gap-3">
                     <Label htmlFor="top-k">Image URL</Label>
                     <Input
                       id="top-k"
@@ -407,6 +418,18 @@ export default function Dashboard() {
                       onChange={handleNameChange} // Handle input change
                     />
                   </div>
+
+                  <div className="grid gap-3">
+                    <Label htmlFor="include-image">Include Image</Label>
+                    <Input
+                      id="include-image"
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      checked={includeImage} // This should be a state variable
+                      onChange={(e) => setIncludeImage(e.target.checked)} // Update state on change
+                    />
+                  </div>
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="grid gap-3">
                       <Label htmlFor="top-p">Username</Label>
@@ -466,6 +489,7 @@ export default function Dashboard() {
                   theme={theme}
                   avatarSrc={avatarSrc}
                   content={content}
+                  imageAllowed={includeImage}
                 />
               </div>
             </div>
